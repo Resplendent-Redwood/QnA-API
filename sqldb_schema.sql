@@ -1,3 +1,6 @@
+
+
+
 CREATE TABLE IF NOT EXISTS Questions
 (
     question_id INT NOT NULL PRIMARY KEY,
@@ -6,6 +9,7 @@ CREATE TABLE IF NOT EXISTS Questions
     asker_name VARCHAR(50) NOT NULL,
     question_helpfulness INT,
     reported BOOLEAN NOT NULL,
+    product_id INT NOT NULL,
 );
 
 CREATE TABLE IF NOT EXISTS Answers
@@ -13,7 +17,7 @@ CREATE TABLE IF NOT EXISTS Answers
     answer_id INT NOT NULL PRIMARY KEY,
     answer_body TEXT NOT NULL,
     answer_date DATE NOT NULL,
-    asker_name VARCHAR(50) NOT NULL,
+    answerer_name VARCHAR(50) NOT NULL,
     answer_helpfulness INT,
     reported BOOLEAN NOT NULL,
     question_id INT NOT NULL,
