@@ -1,5 +1,9 @@
 const mongoose = require('mongoose');
 
+mongoose.connect('mongodb://localhost:27017/QnA', , {useNewUrlParser: true, useUnifiedTopology: true})
+.then(() => {console.log('Connected to monogoDB')})
+.catch((err) => {console.log(err)});
+
 const { Schema } = mongoose;
 
 const ProductQuestionSchema = new Schema({
@@ -47,7 +51,7 @@ const AnswersSchema = new Schema({
   reported: Boolean,
   photos: [
     {
-      id: Integer,
+      id: ObjectId(),
       url: String,
     }
   ],
