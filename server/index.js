@@ -4,18 +4,19 @@ const db = require('../postgres_db/postgresDB.js')
 const app = express();
 app.use(express.json());
 
-const questionsRouter = require('../routes/questions');
-app.use('./questions', questionsRouter)
 
 
-app.get('./questions', auth, (req,res) => {
+app.get('/qa/questions', (req,res) => {
+
+})
+
+app.get('/qa/questions/:question_id/answers', (req,res) => {
 
 })
 
 // authetication
-function auth(req, res, next) {
-  // req.headers.Adafd
-}
+// function auth(req, res, next) {
+// }
 
 // use cache to store data within a certain time
 // use express-rate-limit to limit the traffic
