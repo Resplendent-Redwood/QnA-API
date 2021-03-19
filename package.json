@@ -18,7 +18,14 @@
   },
   "homepage": "https://github.com/benngfour/QnA-API#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "csv-parse": "^4.15.3",
+    "csv-parser": "^3.0.0",
+    "csv-writer": "^1.6.0",
+    "express": "^4.17.1",
+    "fast-csv": "^4.3.6",
+    "fs": "^0.0.1-security",
+    "pg": "^8.5.1",
+    "stream": "^0.0.2"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",

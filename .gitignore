@@ -1,2 +1,4 @@
 .env
 node_modules
+sample_data
+raw_data
