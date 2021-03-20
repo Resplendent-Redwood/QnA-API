@@ -16,41 +16,44 @@ module.exports = {
 
   },
 
-  readQuestions: function(product_id, resutls, callback) {
-    const query = `SELECT json_build_object (
-                          'question_id', q.question_id,
-                          'question_body', q.question_body,
-                          'question_date', q.question_date,
-                          'asker_name', q.asker_name,
-                          'question_helpfulness', q.question_helpfulness,
-                          'reported', q.reported,
-                          'answers', json_build_object (
-                                    a.answer_id, json_build_object(
-                                      'id', a.answer_id,
-                                      'body', a.answer_body,
-                                      'date', a.answer_date,
-                                      'answerer_name', a.answerer_name,
-                                      'helpfulness', a.answer_helpfulness,
-                                      'photos', json_build_array (
-                                          json_build_object (
-                                              'id', p.id,
-                                              'url', p.photo_url
+  readQuestions: function(product_id, count, callback) {
+    const query = `SELECT
+                            json_build_object(
+                              'question_id', q.question_id,
+                              'question_body', q.question_body,
+                              'question_date', q.question_date,
+                              'asker_name', q.asker_name,
+                              'question_helpfulness', q.question_helpfulness,
+                              'reported', q.reported,
+                              'answers', json_build_object (
+                                        a.answer_id, json_build_object(
+                                          'id', a.answer_id,
+                                          'body', a.answer_body,
+                                          'date', a.answer_date,
+                                          'answerer_name', a.answerer_name,
+                                          'helpfulness', a.answer_helpfulness,
+                                          'photos', json_build_array (
+                                              json_build_object (
+                                                  'id', p.id,
+                                                  'url', p.photo_url
+                                              )
                                           )
-                                      )
-                                    )
-                          )
-                    )
+                                        )
+                              )
+                            )
+
                     FROM questions q
                     INNER JOIN answers a ON q.question_id = a.question_id
                     INNER JOIN photos p ON p.answer_id = a.answer_id
                     WHERE product_id=${product_id}
                     AND q.reported='false'
-                    ORDER BY q.question_helpfulness DESC;`
-    db.query(query, (err, resutls, callback) => {
+                    ORDER BY q.question_helpfulness DESC
+                    LIMIT ${count};`
+    db.query(query, (err, results) => {
       if (err) {
         callback(err);
       }
-      callback(null, resutls);
+      callback(null, results);
     })
 },
 
