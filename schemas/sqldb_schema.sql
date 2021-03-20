@@ -73,3 +73,11 @@ alter table answers alter column reported set default false;
 -- FROM '/Users/benjaminng/Personal_Files/HackReactor/SDC/QnA-API/raw_data/answers_photos.csv'
 -- DELIMITER ','
 -- CSV HEADER;
+
+-- CREATE INDEX question_report_index ON questions(reported);
+-- CREATE INDEX question_product_id_index ON questions(product_id);
+-- CREATE INDEX question_id_index ON questions(question_id);
+-- CREATE INDEX answer_question_id_index ON answers(question_id);
+-- CREATE INDEX answer_id_index ON answers(answer_id);
+-- CREATE INDEX photo_answer_id_index ON photos(answer_id);
+
