@@ -74,19 +74,19 @@ module.exports = {
   },
 
   readAnswers: function(question_id, count, offset, callback) {
-    const query = `SELECT a.answer_id,
+    const query = `SELECT a.answer_id AS id,
                           a.answer_body AS body,
                           a.answer_date AS date,
                           a.answerer_name,
                           a.answer_helpfulness AS helpfulness,
-                          json_agg (
-                                  json_build_object(
-                                      'id', p.id,
-                                      'url', p.photo_url
-                                      )
-                          ) AS "photos"
+                          (SELECT COALESCE(json_agg(ph), '[]'::json)
+                        FROM (SELECT p.id,
+                                p.photo_url AS url
+                            FROM photos p
+                            WHERE p.answer_id=a.answer_id
+                            )ph
+                          ) photos
                       FROM answers a
-                      LEFT JOIN photos p ON a.answer_id = p.answer_id
                       WHERE a.question_id=${question_id}
                       AND a.reported='false'
                       GROUP BY a.answer_id

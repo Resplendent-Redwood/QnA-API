@@ -2,8 +2,6 @@ const models = require('../postgres_db/models.js');
 
 module.exports = {
   getAnswers: function(req, res) {
-    // console.log(req.query);
-    // console.log(req.params);
     let count = 5;
     let page = 0;
     if (req.query.count !== undefined) {
@@ -18,13 +16,6 @@ module.exports = {
         console.error(err);
         res.status(404);
       }
-        for (let answer of results.rows) {
-          for (let photo of answer.photos) {
-            if (photo.id === null) {
-              answer.photos = []
-            }
-          }
-        }
       res.status(200).send({question: req.params.question_id, page: page, count: count, results: results.rows });
     })
   },
