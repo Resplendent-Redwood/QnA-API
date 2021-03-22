@@ -1,20 +1,20 @@
 const pg = require('pg');
 const db = require('./postgresDB.js');
 
-const insertQuestion = 'INSERT INTO questions (question_id, product_id, question_body, question_date, asker_name, asker_email, reported, question_helpfulness) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
+const insertQuestion = 'INSERT INTO questions (product_id, question_body, asker_name, asker_email) VALUES ($1, $2, $3, $4) RETURNING *';
 
+const insertAnswer = 'INSERT INTO answers (question_id, answer_body, answerer_name, answerer_email) VALUES ($1, $2, $3, $4) RETURNING *';
 
-const insertAnswer = 'INSERT INTO answers (answer_id, question_id, answer_body, answer_date, answerer_name, answerer_email, reported, answer_helpfulness) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *';
-const answerValues = [];
+const insertPhotos = 'INSERT INTO photos (answer_id, url) VALUES ($1, $2) RETURNING *';
 
-const insertPhotos = 'INSERT INTO photos (id, answer_id, url) VALUES ($1, $2, $3) RETURNING *';
-const photoValues = [];
 
 module.exports = {
 /* ====================== questions table models ================== */
   createQuestions: function(valueArray, callback) {
-    db.query((insertQuestion, valueArray), (err, results) => {
-      if (err) { callback(eer) }
+    db.query(insertQuestion, valueArray, (err, results) => {
+      if (err) {
+        callback(err);
+      }
       callback(null, results);
     })
 
@@ -60,17 +60,37 @@ module.exports = {
     })
 },
 
-  updateQuestionsRepot: function() {
-
+  updateQuestionsReport: function(question_id, callback) {
+    const query = `UPDATE questions SET reported='true'
+                   WHERE question_id=${question_id};`;
+    db.query(query, (err, results) => {
+      if (err) {
+        callback(err);
+      }
+      callback(null, results);
+    })
   },
 
-  updateQuestionsHelpfulness: function() {
-
+  updateQuestionsHelpfulness: function(question_id, callback) {
+    const query = `UPDATE questions
+                   SET question_helpfulness=question_helpfulness + 1
+                   WHERE question_id=${question_id};`;
+    db.query(query, (err, results) => {
+    if (err) {
+    callback(err);
+    }
+    callback(null, results);
+})
   },
 
 /* ====================== answers table models ================== */
-  createAnswers: function() {
-
+  createAnswers: function(valueArray, insertAnswer, callback) {
+    db.query(insertAnswer, valueArray, (err, results) => {
+      if (err) {
+        callback(err);
+      }
+      callback(null, results);
+    })
   },
 
   readAnswers: function(question_id, count, offset, callback) {
@@ -100,11 +120,36 @@ module.exports = {
     })
   },
 
-  updateAnswersRepot: function() {
-
+  updateAnswersReport: function(answer_id, callback) {
+    const query = `UPDATE answers SET reported='true'
+                   WHERE answer_id=${answer_id};`;
+    db.query(query, (err, results) => {
+      if (err) {
+        callback(err);
+      }
+      callback(null, results);
+    })
   },
 
-  updateAnswersHelpfulness: function() {
+  updateAnswersHelpfulness: function(answer_id, callback) {
+    const query = `UPDATE answers
+                    SET helpfulness=answer_helpfulness + 1
+                    WHERE answer_id=${answer_id};`;
+    db.query(query, (err, results) => {
+      if (err) {
+      callback(err);
+      }
+      callback(null, results);
+    })
+  },
 
+  /* ====================== photos table models ================== */
+  createPhotos: function(valueArray, callback) {
+    db.query((insertPhotos, valueArray), (err, results) => {
+      if (err) {
+        callback(err);
+      }
+      callback(null, results);
+    })
   },
 }

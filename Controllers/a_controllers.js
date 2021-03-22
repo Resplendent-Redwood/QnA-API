@@ -21,15 +21,42 @@ module.exports = {
   },
 
   addAnswers: function(req, res) {
-
+    console.log(req.params)
+    console.log(req.body)
+    const answerValueArray = [req.params.answer_id, req.body.body, req.body.name, req.body.email];
+    if (req.body.photos.length > 0) {
+      for (let photo of req.body.photos) {
+        models.createPhotos([req.params.answer_id, photo], (err, results) => {
+          if (err) {
+            console.error(err);
+          }
+        })
+      }
+    }
+    models.createAnswers(answerValueArray, (err, results) => {
+      if (err) {
+        console.error(err);
+      }
+      res.status(201).send('Created');
+    })
   },
 
   reportAnswers: function(req, res) {
-
+    models.updateAnswersReport(req.params.answer_id, (err, results) => {
+      if (err) {
+        console.error(err);
+      }
+      res.status(201).send('Reported');
+    })
   },
 
   voteAnswersHelpful: function(req, res) {
-
+    models.updateAnswersHelpfulness(req.params.answer_id, (err, results) => {
+      if (err) {
+        console.error(err);
+      }
+      res.status(201).send('Updated');
+    })
   },
 
 }

@@ -2,8 +2,6 @@ const models = require('../postgres_db/models.js');
 
 module.exports = {
   getQuestions: function(req, res) {
-    //     console.log(req.query);
-    // console.log(req.params);
     let count = 5;
     if (req.query.count !== undefined) {
       count = req.query.count;
@@ -28,15 +26,34 @@ module.exports = {
   },
 
   addQuestions: function(req, res) {
-    let values = []
+    const questionsValueArray = [req.body.product_id, req.body.body, req.body.name, req.body.email];
+    models.createQuestions(questionsValueArray, (err, results) => {
+      if (err) {
+        console.error(err);
+      }
+      console.log(results);
+      res.status(201).send('Created');
+    })
   },
 
   reportQuestions: function(req, res) {
+    models.updateQuestionsReport(req.params.question_id, (err, results) => {
+      if (err) {
+        console.error(err);
+      }
+      req.status(201).send('Reported');
+    })
 
   },
 
   voteQuestionsHelpful: function(req, res) {
-
+    models.updateQuestionsHelpfulness(req.params.question_id, (err, results) => {
+      if (err) {
+        console.error(err);
+      }
+      console.log(results);
+      res.status(201).send('Updated');
+    })
   },
 
 
