@@ -1,10 +1,13 @@
 require('dotenv').config()
 const express = require('express');
+const logger = require('morgan');
+
 const db = require('../postgres_db/postgresDB.js')
 // const mongodb = require('../mongodb/mongodb.js')
 const qc = require('../controllers/q_controllers.js');
 const ac = require('../controllers/a_controllers.js');
 const app = express();
+app.use(logger('dev'));
 const port = process.env.PORT || 8000;
 
 
