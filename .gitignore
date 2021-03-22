@@ -1,2 +1,6 @@
 .env
 node_modules
+sample_data
+raw_data
+qna-load-test.yml
+k6-script.js
