@@ -19,7 +19,7 @@ CREATE DATABASE sample;
 DROP TABLE IF EXISTS questions;
 CREATE TABLE questions
 (
-    question_id SERIAL NOT NULL PRIMARY KEY,
+    question_id BIGSERIAL NOT NULL PRIMARY KEY,
     product_id INT NOT NULL,
     question_body VARCHAR(1000) NOT NULL,
     question_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -32,7 +32,7 @@ CREATE TABLE questions
 DROP TABLE IF EXISTS answers;
 CREATE TABLE answers
 (
-    answer_id SERIAL NOT NULL PRIMARY KEY,
+    answer_id BIGSERIAL NOT NULL PRIMARY KEY,
     question_id INT NOT NULL,
     answer_body VARCHAR(1000) NOT NULL,
     answer_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
@@ -47,7 +47,7 @@ CREATE TABLE answers
 DROP TABLE IF EXISTS photos;
 CREATE TABLE photos
 (
-    id SERIAL NOT NULL PRIMARY KEY,
+    id BIGSERIAL NOT NULL PRIMARY KEY,
     answer_id INT NOT NULL,
     photo_url TEXT CONSTRAINT proper_url CHECK (photo_url IS NULL OR photo_url ~* 'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,255}\.[a-z]{2,9}\y([-a-zA-Z0-9@:%_\+.,~#?!&>//=]*)$'),
     FOREIGN KEY (answer_id)

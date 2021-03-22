@@ -22,7 +22,7 @@ function is_url(url) {
   return regexp.test(url);
 }
 
-export default = {
+module.exports = {
   is_Number: is_Number,
   is_email: is_email,
   is_url: is_url,

@@ -1,4 +1,5 @@
 const models = require('../postgres_db/models.js');
+const validation = require('../postgres_db/db_validation.js');
 
 module.exports = {
   getAnswers: function(req, res) {
@@ -21,16 +22,16 @@ module.exports = {
   },
 
   addAnswers: function(req, res) {
-    console.log(req.params)
-    console.log(req.body)
     const answerValueArray = [req.params.answer_id, req.body.body, req.body.name, req.body.email];
     if (req.body.photos.length > 0) {
       for (let photo of req.body.photos) {
-        models.createPhotos([req.params.answer_id, photo], (err, results) => {
-          if (err) {
-            console.error(err);
-          }
-        })
+        if (validation.is_url(photo)) {
+          models.createPhotos([req.params.answer_id, photo], (err, results) => {
+            if (err) {
+              console.error(err);
+            }
+          })
+        }
       }
     }
     models.createAnswers(answerValueArray, (err, results) => {
