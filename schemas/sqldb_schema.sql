@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS sample;
+DROP DATABASE IF EXISTS qna;
 
-CREATE DATABASE sample;
+CREATE DATABASE qna;
 
-\c sample;
+\c qna;
 
 -- DROP DOMAIN IF EXISTS url
 -- CREATE DOMAIN url AS text
