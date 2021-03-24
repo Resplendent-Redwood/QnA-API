@@ -13,7 +13,7 @@ const { Pool, Client } = require('pg')
 // })
 
 module.exports = client = new Client({
-  host: 'host.docker.internal',
+  host: 'localhost',
   port: 8010,
   user: 'postgres',
   database: 'qna',
