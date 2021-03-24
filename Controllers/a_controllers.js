@@ -22,30 +22,37 @@ module.exports = {
   },
 
   addAnswers: function(req, res) {
-    const answerValueArray = [req.params.answer_id, req.body.body, req.body.name, req.body.email];
-    if (req.body.photos.length > 0) {
-      for (let photo of req.body.photos) {
-        if (validation.is_url(photo)) {
-          models.createPhotos([req.params.answer_id, photo], (err, results) => {
-            if (err) {
-              console.error(err);
-            }
-          })
+    if(validation.is_email(req.body.email) && validation.is_username(req.body.name)) {
+      const answerValueArray = [req.params.answer_id, req.body.body, req.body.name, req.body.email];
+      if (req.body.photos.length > 0) {
+        for (let photo of req.body.photos) {
+          if (validation.is_url(photo)) {
+            models.createPhotos([req.params.answer_id, photo], (err, results) => {
+              if (err) {
+                console.error(err);
+                res.status(400).send('Failed to add photos');
+              }
+            })
+          }
         }
       }
+      models.createAnswers(answerValueArray, (err, results) => {
+        if (err) {
+          console.error(err);
+          res.status(400).send('Failed to add answer');
+        }
+        res.status(201).send('Created');
+      })
+    } else {
+      res.status(400).send('Something wrong with your name and email.')
     }
-    models.createAnswers(answerValueArray, (err, results) => {
-      if (err) {
-        console.error(err);
-      }
-      res.status(201).send('Created');
-    })
   },
 
   reportAnswers: function(req, res) {
     models.updateAnswersReport(req.params.answer_id, (err, results) => {
       if (err) {
         console.error(err);
+        res.status(400).send('Failed to report the answer');
       }
       res.status(201).send('Reported');
     })
@@ -55,6 +62,7 @@ module.exports = {
     models.updateAnswersHelpfulness(req.params.answer_id, (err, results) => {
       if (err) {
         console.error(err);
+        res.status(400).send('Failed to vote the answer');
       }
       res.status(201).send('Updated');
     })

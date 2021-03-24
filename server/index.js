@@ -1,17 +1,23 @@
 require('dotenv').config()
+require('newrelic');
 const express = require('express');
-const logger = require('morgan');
+const compression = require('compression');
 
 const db = require('../postgres_db/postgresDB.js')
 // const mongodb = require('../mongodb/mongodb.js')
 const qc = require('../controllers/q_controllers.js');
 const ac = require('../controllers/a_controllers.js');
+
+
+
 const app = express();
-app.use(logger('dev'));
 const port = process.env.PORT || 8000;
 
-
+app.use(compression());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
+
+
 
 app.get('/qa/questions', qc.getQuestions)
 
