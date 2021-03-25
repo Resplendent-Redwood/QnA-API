@@ -82,3 +82,5 @@ CREATE SEQUENCE photos_id_seq;
 -- UPDATE answers
 -- SET answerer_email = ''
 -- WHERE answerer_email IS NULL;
+
+
