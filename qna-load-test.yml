@@ -1,0 +1,29 @@
+config:
+  target: "http://localhost:8000"
+  phases:
+    - duration: 60
+      arrivalRate: 50
+      name: Warm up
+    - duration: 120
+      arrivalRate: 50
+      rampTo: 400
+      name: Ramp up load
+    - duration: 60
+      arrivalRate: 400
+      name: Sustained load
+  payload:
+    # Load search keywords from an external CSV file and make them available
+    # to virtual user scenarios as variable "keywords":
+    path: "/Users/benjaminng/Personal_Files/HackReactor/SDC/QnA-API/raw_data/questions.csv"
+    fields:
+      - "product_id"
+    order: sequence
+    skipHeader: true
+scenarios:
+  # We define one scenario:
+  - name: "qna"
+    flow:
+      # Get the details of the product:
+      - get:
+          url: "http://localhost:8000/qa/questions?product_id={{product_id}}&count=100"
+      # Pause for 3 seconds:

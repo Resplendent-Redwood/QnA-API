@@ -21,8 +21,7 @@ module.exports = {
   },
 
   readQuestions: function(product_id, count, callback) {
-    const query = `
-                      SELECT q.question_id,
+    const query = `SELECT q.question_id,
                           q.question_body,
                           q.question_date,
                           q.asker_name,

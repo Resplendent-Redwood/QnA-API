@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS sample;
+DROP DATABASE IF EXISTS qna;
 
-CREATE DATABASE sample;
+CREATE DATABASE qna;
 
-\c sample;
+\c qna;
 
 -- DROP DOMAIN IF EXISTS url
 -- CREATE DOMAIN url AS text
@@ -19,67 +19,43 @@ CREATE DATABASE sample;
 DROP TABLE IF EXISTS questions;
 CREATE TABLE questions
 (
-    question_id BIGSERIAL NOT NULL PRIMARY KEY,
+    question_id INTEGER DEFAULT nextval('questions_question_id_seq') NOT NULL PRIMARY KEY,
     product_id INT NOT NULL,
     question_body VARCHAR(1000) NOT NULL,
     question_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     asker_name VARCHAR(60) NOT NULL,
     asker_email VARCHAR(60),
-    reported BOOLEAN NOT NULL,
-    question_helpfulness INT
+    reported BOOLEAN NOT NULL DEFAULT false,
+    question_helpfulness INT DEFAULT 0
 );
+CREATE SEQUENCE questions_question_id_seq;
 
 DROP TABLE IF EXISTS answers;
 CREATE TABLE answers
 (
-    answer_id BIGSERIAL NOT NULL PRIMARY KEY,
+    answer_id INTEGER DEFAULT nextval('answers_answer_id_seq') NOT NULL PRIMARY KEY,
     question_id INT NOT NULL,
     answer_body VARCHAR(1000) NOT NULL,
     answer_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     answerer_name VARCHAR(60) NOT NULL,
     answerer_email VARCHAR(60),
-    reported BOOLEAN NOT NULL,
-    answer_helpfulness INT,
+    reported BOOLEAN NOT NULL DEFAULT false,
+    answer_helpfulness INT DEFAULT 0,
     FOREIGN KEY (question_id)
     REFERENCES questions(question_id)
 );
+CREATE SEQUENCE answers_answer_id_seq;
 
 DROP TABLE IF EXISTS photos;
 CREATE TABLE photos
 (
-    id BIGSERIAL NOT NULL PRIMARY KEY,
+    id INTEGER DEFAULT nextval('photos_id_seq') NOT NULL PRIMARY KEY,
     answer_id INT NOT NULL,
     photo_url TEXT CONSTRAINT proper_url CHECK (photo_url IS NULL OR photo_url ~* 'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,255}\.[a-z]{2,9}\y([-a-zA-Z0-9@:%_\+.,~#?!&>//=]*)$'),
     FOREIGN KEY (answer_id)
     REFERENCES answers(answer_id)
 );
-
--- alter table questions alter column question_helpfulness set default 0;
--- alter table questions alter column reported set default false;
--- alter table answers alter column answer_helpfulness set default 0;
--- alter table answers alter column reported set default false;
--- create sequence questions_question_id_serial
---    owned by questions.question_id;
-
--- alter table questions
---    alter column question_id set default nextval('questions_question_id_serial');
-
--- commit;
--- create sequence answers_answer_id_serial
---    owned by answers.answer_id;
-
--- alter table answers
---    alter column answer_id set default nextval('answers_answer_id_serial');
-
--- commit;
--- create sequence photos_id_serial
---    owned by photos.id;
-
--- alter table photos
---    alter column id set default nextval('photos_id_serial');
-
--- commit;
-
+CREATE SEQUENCE photos_id_seq;
 
 -- CREATE INDEX question_report_index ON questions(reported);
 -- CREATE INDEX question_id_index ON questions(question_id);
@@ -102,9 +78,9 @@ CREATE TABLE photos
 -- DELIMITER ','
 -- CSV HEADER;
 
+-- clean up after data load
 -- UPDATE answers
 -- SET answerer_email = ''
 -- WHERE answerer_email IS NULL;
 
--- ALTER TABLE questions ALTER COLUMN question_date SET DEFAULT now();
--- ALTER TABLE answers ALTER COLUMN answer_date SET DEFAULT now();
+

@@ -1,4 +1,4 @@
-const models = require('../postgres_db/models.js');
+const models = require('../../postgres_db/models.js');
 
 module.exports = {
   getQuestions: function(req, res) {
@@ -30,6 +30,7 @@ module.exports = {
     models.createQuestions(questionsValueArray, (err, results) => {
       if (err) {
         console.error(err);
+        res.status(400).send('Failed to add the question');
       }
       console.log(results);
       res.status(201).send('Created');
@@ -40,6 +41,7 @@ module.exports = {
     models.updateQuestionsReport(req.params.question_id, (err, results) => {
       if (err) {
         console.error(err);
+        res.status(400).send('Failed to report the question');
       }
       req.status(201).send('Reported');
     })
@@ -50,8 +52,8 @@ module.exports = {
     models.updateQuestionsHelpfulness(req.params.question_id, (err, results) => {
       if (err) {
         console.error(err);
+        res.status(400).send('Failed to vote the question');
       }
-      console.log(results);
       res.status(201).send('Updated');
     })
   },
