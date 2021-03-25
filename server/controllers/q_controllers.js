@@ -1,4 +1,4 @@
-const models = require('../postgres_db/models.js');
+const models = require('../../postgres_db/models.js');
 
 module.exports = {
   getQuestions: function(req, res) {

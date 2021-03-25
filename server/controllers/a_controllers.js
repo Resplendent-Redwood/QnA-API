@@ -1,5 +1,5 @@
-const models = require('../postgres_db/models.js');
-const validation = require('../postgres_db/db_validation.js');
+const models = require('../../postgres_db/models.js');
+const validation = require('../../postgres_db/db_validation.js');
 
 module.exports = {
   getAnswers: function(req, res) {

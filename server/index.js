@@ -4,8 +4,8 @@ const compression = require('compression');
 
 const db = require('../postgres_db/postgresDB.js')
 // const mongodb = require('../mongodb/mongodb.js')
-const qc = require('../controllers/q_controllers.js');
-const ac = require('../controllers/a_controllers.js');
+const qc = require('./controllers/q_controllers.js');
+const ac = require('./controllers/a_controllers.js');
 
 
 
