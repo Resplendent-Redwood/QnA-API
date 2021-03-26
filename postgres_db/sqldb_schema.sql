@@ -15,6 +15,9 @@ CREATE DATABASE qna;
 -- CHECK(
 --    VALUE ~ '^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$'
 -- );
+CREATE SEQUENCE answers_answer_id_seq;
+CREATE SEQUENCE questions_question_id_seq;
+CREATE SEQUENCE photos_id_seq;
 
 DROP TABLE IF EXISTS questions;
 CREATE TABLE questions
@@ -28,7 +31,6 @@ CREATE TABLE questions
     reported BOOLEAN NOT NULL DEFAULT false,
     question_helpfulness INT DEFAULT 0
 );
-CREATE SEQUENCE questions_question_id_seq;
 
 DROP TABLE IF EXISTS answers;
 CREATE TABLE answers
@@ -44,7 +46,6 @@ CREATE TABLE answers
     FOREIGN KEY (question_id)
     REFERENCES questions(question_id)
 );
-CREATE SEQUENCE answers_answer_id_seq;
 
 DROP TABLE IF EXISTS photos;
 CREATE TABLE photos
@@ -55,26 +56,25 @@ CREATE TABLE photos
     FOREIGN KEY (answer_id)
     REFERENCES answers(answer_id)
 );
-CREATE SEQUENCE photos_id_seq;
 
--- CREATE INDEX question_report_index ON questions(reported);
--- CREATE INDEX question_id_index ON questions(question_id);
--- CREATE INDEX answer_question_id_index ON answers(question_id);
--- CREATE INDEX answer_id_index ON answers(answer_id);
--- CREATE INDEX photo_answer_id_index ON photos(answer_id);
+CREATE INDEX question_report_index ON questions(reported);
+CREATE INDEX question_id_index ON questions(question_id);
+CREATE INDEX answer_question_id_index ON answers(question_id);
+CREATE INDEX answer_id_index ON answers(answer_id);
+CREATE INDEX photo_answer_id_index ON photos(answer_id);
 
 -- COPY questions(question_id, product_id, question_body, question_date, asker_name, asker_email, reported, question_helpfulness)
--- FROM '/Users/benjaminng/Personal_Files/HackReactor/SDC/QnA-API/raw_data/questions.csv'
+-- FROM '/home/ubuntu/raw_data/questions.csv'
 -- DELIMITER ','
 -- CSV HEADER;
 
 -- COPY answers(answer_id, question_id, answer_body, answer_date, answerer_name, answerer_email, reported, answer_helpfulness)
--- FROM '/Users/benjaminng/Personal_Files/HackReactor/SDC/QnA-API/raw_data/answers.csv'
+-- FROM '/home/ubuntu/raw_data/answers.csv'
 -- DELIMITER ','
 -- CSV HEADER;
 
 -- COPY photos(id, answer_id, photo_url)
--- FROM '/Users/benjaminng/Personal_Files/HackReactor/SDC/QnA-API/raw_data/answers_photos.csv'
+-- FROM '/home/ubuntu/raw_data/answers_photos.csv'
 -- DELIMITER ','
 -- CSV HEADER;
 
