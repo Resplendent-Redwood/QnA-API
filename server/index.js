@@ -11,7 +11,7 @@ const ac = require('./controllers/a_controllers.js');
 
 const app = express();
 const host = 'localhost';
-const port = process.env.PORT || 8000;
+const port = 3000;
 
 app.use(compression());
 app.use(express.json());
