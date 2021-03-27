@@ -7,7 +7,7 @@ module.exports = pool = new Pool({
   user: 'postgres',
   database: 'qna',
   password: '123456789',
-  max: 100,
+  max: 150,
   // idleTimeoutMillis: 30000,
   // connectionTimeoutMillis: 2000,
 })
@@ -21,8 +21,8 @@ module.exports = pool = new Pool({
 //   password: '123456789',
 // })
 
-pool.connect()
-  .then(() => {
-    console.log('connected to postgresDB')
-  })
-  .catch(err => console.error('connection error', err.stack))
+// pool.connect()
+//   .then(() => {
+//     console.log('connected to postgresDB')
+//   })
+//   .catch(err => console.error('connection error', err.stack))

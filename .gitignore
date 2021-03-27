@@ -5,3 +5,4 @@ raw_data
 docker-compose.yml
 newrelic.js
 newrelic_agent.log
+nginx
