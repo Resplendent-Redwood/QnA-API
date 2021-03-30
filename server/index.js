@@ -10,7 +10,8 @@ const ac = require('./controllers/a_controllers.js');
 
 
 const app = express();
-const port = process.env.PORT || 8000;
+const host = 'localhost';
+const port = 3000;
 
 app.use(compression());
 app.use(express.json());
@@ -41,6 +42,6 @@ app.put('/qa/answers/:answer_id/report', ac.reportAnswers)
 // use cache to store data within a certain time
 // use express-rate-limit to limit the traffic
 
-app.listen(port, () => {
-  console.log(`The server is up running on port ${port}`);
+app.listen(port, host, () => {
+  console.log(`The server is up running at http://${host}:${port}`);
 })

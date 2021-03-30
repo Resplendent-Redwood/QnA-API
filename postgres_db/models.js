@@ -51,11 +51,17 @@ module.exports = {
                       GROUP BY q.question_id
                       ORDER BY q.question_helpfulness DESC
                       LIMIT ${count};`;
-    db.query(query, (err, results) => {
+    db.connect((err, client, release) => {
       if (err) {
-        callback(err);
+        retrun console.error('Error acquiring client', err.stack)
       }
-      callback(null, results);
+      client.query(query, (err, results) => {
+        release()
+        if (err) {
+          callback(err.stack);
+        }
+        callback(null, results);
+      })
     })
 },
 
