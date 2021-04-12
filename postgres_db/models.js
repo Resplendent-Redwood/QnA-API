@@ -53,7 +53,7 @@ module.exports = {
                       LIMIT ${count};`;
     db.connect((err, client, release) => {
       if (err) {
-        retrun console.error('Error acquiring client', err.stack)
+        return console.error('Error acquiring client', err.stack)
       }
       client.query(query, (err, results) => {
         release()

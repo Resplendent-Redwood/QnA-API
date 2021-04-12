@@ -6,9 +6,9 @@ module.exports = {
     if (req.query.count !== undefined) {
       count = req.query.count;
     }
-    console.log('before query')
+    // console.log('before query')
     models.readQuestions(req.query.product_id, count, (err, results) => {
-      console.log(results)
+      // console.log('during query')
       if (err) {
         console.error(err);
         res.status(404);
