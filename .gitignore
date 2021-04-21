@@ -6,3 +6,4 @@ docker-compose.yml
 newrelic.js
 newrelic_agent.log
 nginx
+qna-load-test.yml
