@@ -58,6 +58,7 @@ CREATE TABLE photos
 );
 
 CREATE INDEX question_report_index ON questions(reported);
+CREATE INDEX answer_report_index ON answers(reported);
 CREATE INDEX question_id_index ON questions(question_id);
 CREATE INDEX answer_question_id_index ON answers(question_id);
 CREATE INDEX answer_id_index ON answers(answer_id);
@@ -82,5 +83,34 @@ CREATE INDEX photo_answer_id_index ON photos(answer_id);
 -- UPDATE answers
 -- SET answerer_email = ''
 -- WHERE answerer_email IS NULL;
-
+-- EXPLAIN ANALYZE SELECT q.question_id,
+--                           q.question_body,
+--                           q.question_date,
+--                           q.asker_name,
+--                           q.question_helpfulness,
+--                           q.reported,
+--                               (SELECT COALESCE(json_agg(an), '[]'::json)
+--                           FROM (SELECT a.answer_id AS id,
+--                                       a.answer_body AS body,
+--                                       a.answer_date AS date,
+--                                       a.answerer_name,
+--                                       a.answer_helpfulness AS helpfulness,
+--                                       (SELECT COALESCE(json_agg(ph), '[]'::json)
+--                                   FROM (SELECT p.id,
+--                                             p.photo_url AS url
+--                                     FROM photos p
+--                                     WHERE p.answer_id=a.answer_id
+--                                     )ph
+--                                   ) photos
+--                               FROM answers a
+--                               WHERE a.question_id=q.question_id
+--                               AND a.reported='false'
+--                               ) an
+--                           ) answers
+--                       FROM questions q
+--                       WHERE q.product_id=123
+--                       AND q.reported='false'
+--                       GROUP BY q.question_id
+--                       ORDER BY q.question_helpfulness DESC
+--                       LIMIT 100;
 

@@ -42,6 +42,6 @@ app.put('/qa/answers/:answer_id/report', ac.reportAnswers)
 // use cache to store data within a certain time
 // use express-rate-limit to limit the traffic
 
-app.listen(port, host, () => {
+app.listen(port, () => {
   console.log(`The server is up running at http://${host}:${port}`);
 })
